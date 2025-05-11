@@ -1,24 +1,15 @@
-import psycopg2
-from dotenv import load_dotenv
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
+
 import os
+from dotenv import load_dotenv
 
 load_dotenv()
 
-conexaoBanco = psycopg2.connect(
-    database= os.getenv("DB_NAME"),
-    host=os.getenv("DB_HOST"),
-    port=os.getenv("DB_PORT"),
-    user=os.getenv("DB_USER"),
-    password=os.getenv("DB_PASSWORD"),
+DATABASE_URL = (
+    f"postgresql://{os.getenv('DB_USER')}:{os.getenv('DB_PASSWORD')}@"
+    f"{os.getenv('DB_HOST')}:{os.getenv('DB_PORT')}/{os.getenv('DB_NAME')}"
 )
 
-cursorSQL= conexaoBanco.cursor()
-
-cursorSQL.execute("SELECT * FROM users")
-resultadoSQL = cursorSQL.fetchall()
-
-for x in resultadoSQL:
-    print(x)
-
-conexaoBanco.close()
-cursorSQL.close()
+engine = create_engine(DATABASE_URL)
+SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
