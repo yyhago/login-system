@@ -8,8 +8,8 @@ class User(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     email = Column(String, unique=True, nullable=False)
-    password_hash = Column(String, nullable=False)
+    password = Column(String, nullable=False)
 
 
     def __repr__(self):
-        return f"<User (email={self.email}, password={self.password_hash})>"
+        return f"<User (email={self.email}, password={self.password})>"

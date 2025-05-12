@@ -1,6 +1,5 @@
 from model.user import User
 from database.database import SessionLocal
-
 import bcrypt
 
 class ControllerUser:
@@ -27,7 +26,7 @@ class ControllerUser:
             
             new_user = User(
                 email = email,
-                password_hash = hashed_pwd
+                password = hashed_pwd
             )
 
             session.add(new_user)
@@ -50,7 +49,7 @@ class ControllerUser:
             if user is None:
                 return {"erro": "Usuário não encontrado"}
             
-            if cls.verify_password(password, user.password_hash):
+            if cls.verify_password(password, user.password):
                 return {"mensagem": "Login realizado com sucesso!", "user": user.email}
             else:
                 return {"erro": "Senha incorreta, por favor tente novamente!"}
